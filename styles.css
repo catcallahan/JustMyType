@@ -11,11 +11,12 @@
 
 #yellow-block {
   position: absolute;
-  margin-top: 10px;
+  padding: 0;
   width: 15px;
   height: 15px;
   background-color: yellow;
 }
+
 
 .keyboard-container {
   margin-top: 200px;

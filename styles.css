@@ -11,6 +11,8 @@
 
 #yellow-block {
   position: absolute;
+  top: 10px;
+  /* left: 29px; */
   padding: 0;
   width: 15px;
   height: 15px;

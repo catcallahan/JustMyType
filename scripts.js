@@ -5,7 +5,8 @@ let letterCounter = 0;
 let numberOfMistakes = 0;
 let numberOfWords = 0;
 let gameStatus = false
-let timerEnd = 0
+let timerEnd;
+let timerStart;
 
 
 // -------------------------- On Page load----------------------//
@@ -14,9 +15,6 @@ $('#keyboard-upper-container').hide();
 $('#sentence').text(sentences[sentenceCounter]);
 $('#target-letter').text(sentences[sentenceCounter][letterCounter]);
 
-
-// ---- Start Timer -----//
-let timerStart = Date.now();
 
 
 // ------ Change boards when pressing shift ------//
@@ -35,8 +33,12 @@ $(document).keydown(function (e) {
 // -------------------- Game Play Start -----------------------//
 
 $(document).keypress(function (e) {
- 
+    //----Start Timer---//
+    if (timerStart == undefined) {
+        timerStart = e.timeStamp
+        console.log(timerStart)
 
+    }
     // -- Check key press to correct sentence index ---//
 
     if (sentences[sentenceCounter].charCodeAt(letterCounter) == e.which) {
@@ -71,22 +73,23 @@ $(document).keypress(function (e) {
         sentenceCounter++
         letterCounter = 0
         $('#sentence').text(sentences[sentenceCounter]);
-        
+
         //--- Reset Yellow Block ---//
         $('#yellow-block').css({
             'left': '29px'
         })
-        
+
     };
 
     // -------------------- Game End ---------------------------------//
     if (sentenceCounter == sentences.length) {
         // --- End timer and calculate wpm --//
-        timerEnd = Date.now();
-        diff = (timerEnd - timerStart)/1000
-        minutes = diff/60
-        let wpm = Math.floor((54 / minutes) - (2 * numberOfMistakes))
-        
+        timerEnd = e.timeStamp;
+        diff = (timerEnd - timerStart) / 1000
+        let totalNumWords = numberOfWords + sentences.length
+        minutes = diff / 60
+        let wpm = Math.floor((totalNumWords / minutes) - (2 * numberOfMistakes))
+
 
         //--- Create End page and restart button --//
         $('#keyboard-upper-container').hide();
@@ -100,7 +103,7 @@ $(document).keypress(function (e) {
             'font-family': 'Courier New, Courier, monospace',
         })
         $('.container').append('<p id = "button"><button class = "play-again"> Play Again </button></p>');
-        $('button').click(function(){
+        $('button').click(function () {
             location.reload(true);
         })
         $('#button').css({
@@ -109,8 +112,8 @@ $(document).keypress(function (e) {
             'font-family': 'Courier New, Courier, monospace',
         })
         $('#button').prepend('<p id = "wpm"> You typed at: ' + wpm + ' words per minute!</p>')
-        if (numberOfMistakes != 0){
-        $('#button').prepend('<p id = "mistakes-made"> You made: ' + numberOfMistakes + ' mitakes. </p>')
+        if (numberOfMistakes != 0) {
+            $('#button').prepend('<p id = "mistakes-made"> You made: ' + numberOfMistakes + ' mitakes. </p>')
         } else {
             $('#button').prepend('<p id = "mistakes-made"> Congrats! You made no mistakes!</p>')
         }

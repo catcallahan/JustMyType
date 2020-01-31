@@ -100,9 +100,9 @@ $(document).keypress(function (e) {
             'font-family': 'Courier New, Courier, monospace',
         })
         $('.container').append('<p id = "button"><button class = "play-again"> Play Again </button></p>');
-        // $('button').click(function(){
-        //     gameStatus = true
-        // })
+        $('button').click(function(){
+            location.reload(true);
+        })
         $('#button').css({
             'text-align': 'center',
             'font-size': '40px',

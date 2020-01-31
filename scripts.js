@@ -4,9 +4,9 @@ let sentenceCounter = 0;
 let letterCounter = 0;
 let numberOfMistakes = 0;
 let numberOfWords = 0;
-let gameStart = false
+let gameStatus = false
 let timerEnd = 0
-let started = 0
+
 
 // -------------------------- On Page load----------------------//
 
@@ -35,9 +35,7 @@ $(document).keydown(function (e) {
 // -------------------- Game Play Start -----------------------//
 
 $(document).keypress(function (e) {
-    if (gameStart = false) {
-        gameStart = true 
-    }
+ 
 
     // -- Check key press to correct sentence index ---//
 
@@ -84,7 +82,6 @@ $(document).keypress(function (e) {
     // -------------------- Game End ---------------------------------//
     if (sentenceCounter == sentences.length) {
         // --- End timer and calculate wpm --//
-        gameStart = false;
         timerEnd = Date.now();
         diff = (timerEnd - timerStart)/1000
         minutes = diff/60
@@ -103,12 +100,20 @@ $(document).keypress(function (e) {
             'font-family': 'Courier New, Courier, monospace',
         })
         $('.container').append('<p id = "button"><button class = "play-again"> Play Again </button></p>');
+        // $('button').click(function(){
+        //     gameStatus = true
+        // })
         $('#button').css({
             'text-align': 'center',
             'font-size': '40px',
             'font-family': 'Courier New, Courier, monospace',
         })
-        $('#button').prepend('<p id = "wpm">' + wpm + '</p>')
+        $('#button').prepend('<p id = "wpm"> You typed at: ' + wpm + ' words per minute!</p>')
+        if (numberOfMistakes != 0){
+        $('#button').prepend('<p id = "mistakes-made"> You made: ' + numberOfMistakes + ' mitakes. </p>')
+        } else {
+            $('#button').prepend('<p id = "mistakes-made"> Congrats! You made no mistakes!</p>')
+        }
     }
 });
 
